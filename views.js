@@ -20,12 +20,12 @@ function bytes(val) {
 
 function strip_filetype(val) {
     var i = val.lastIndexOf('.');
-    return val.slice(0, i);
+    return (i >= 0) ? val.slice(0, i) : val;
 }
 
 function strip_filename(val) {
     var i = val.lastIndexOf('.');
-    return _.toUpper(val.slice(i + 1));
+    return (i >= 0) ? _.toUpper(val.slice(i + 1)) : 'UNKNOWN';
 }
 
 function listFiles(req, res) {
