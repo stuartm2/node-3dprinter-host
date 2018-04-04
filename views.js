@@ -1,6 +1,9 @@
 
 const fs = require('fs');
 const _ = require('lodash');
+const qs = require('querystring');
+
+const BASEDIR = '/Users/stuartm/Downloads/Print Queue/';
 
 function bytes(val) {
     var gb = val / (1024 * 1024 * 1024);
@@ -28,11 +31,27 @@ function strip_filename(val) {
     return (i >= 0) ? _.toUpper(val.slice(i + 1)) : 'UNKNOWN';
 }
 
+function deleteFile(req, res) {
+    var filename = req.params.file.split('/').pop();
+
+    if (fs.existsSync(BASEDIR + filename)) {
+        fs.unlink(BASEDIR + filename, (err) => {
+            if (err) {
+                res.status(403).send('Permission denied');
+            } else {
+                res.send('OK');
+            }
+        });
+    } else {
+        res.status(404).send('File not found');
+    }
+}
+
 function listFiles(req, res) {
     var files = [];
-    var basedir = '/Users/stuartm/Downloads/Print Queue/';
-    fs.readdirSync(basedir).forEach(function (f) {
-        var stats = fs.statSync(basedir + f);
+
+    fs.readdirSync(BASEDIR).forEach(function (f) {
+        var stats = fs.statSync(BASEDIR + f);
 
         if (!_.startsWith(f, '.') && !stats.isDirectory()) {
             files.push({
@@ -48,9 +67,11 @@ function listFiles(req, res) {
 }
 
 module.exports = {
+    deleteFile,
     listFiles,
     helpers: {
         bytes,
+        escape: qs.escape,
         strip_filename,
         strip_filetype
     }
