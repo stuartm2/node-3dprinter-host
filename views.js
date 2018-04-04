@@ -18,6 +18,16 @@ function bytes(val) {
     }
 }
 
+function strip_filetype(val) {
+    var i = val.lastIndexOf('.');
+    return val.slice(0, i);
+}
+
+function strip_filename(val) {
+    var i = val.lastIndexOf('.');
+    return _.toUpper(val.slice(i + 1));
+}
+
 function listFiles(req, res) {
     var files = [];
     var basedir = '/Users/stuartm/Downloads/Print Queue/';
@@ -39,6 +49,8 @@ function listFiles(req, res) {
 module.exports = {
     listFiles,
     helpers: {
-        bytes
+        bytes,
+        strip_filename,
+        strip_filetype
     }
 }
