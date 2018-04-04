@@ -45,7 +45,6 @@ function listFiles(req, res) {
     return res.render('files', {
         files
     });
-    return res.send('Hello Files!');
 }
 
 module.exports = {
