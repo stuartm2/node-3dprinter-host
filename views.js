@@ -32,10 +32,12 @@ function listFiles(req, res) {
     var files = [];
     var basedir = '/Users/stuartm/Downloads/Print Queue/';
     fs.readdirSync(basedir).forEach(function (f) {
-        if (!_.startsWith(f, '.')) {
+        var stats = fs.statSync(basedir + f);
+
+        if (!_.startsWith(f, '.') && !stats.isDirectory()) {
             files.push({
                 name: f,
-                size: fs.statSync(basedir + f).size
+                size: stats.size
             });
         }
     });
