@@ -31,6 +31,30 @@ function strip_filename(val) {
     return (i >= 0) ? _.toUpper(val.slice(i + 1)) : 'UNKNOWN';
 }
 
+function getFile(req, res) {
+    var filename = req.params.file.split('/').pop();
+    var filestats = getFileInfo(filename);
+
+    if (filestats) {
+        res.json(filestats);
+    } else {
+        res.status(404).send('File not found');
+    }
+}
+
+function getFileInfo(filename) {
+    if (fs.existsSync(BASEDIR + filename)) {
+        var stats = fs.statSync(BASEDIR + filename);
+
+        if (!_.startsWith(filename, '.') && !stats.isDirectory()) {
+            return {
+                name: filename,
+                size: stats.size
+            };
+        }
+    }
+}
+
 function deleteFile(req, res) {
     var filename = req.params.file.split('/').pop();
 
@@ -51,13 +75,10 @@ function listFiles(req, res) {
     var files = [];
 
     fs.readdirSync(BASEDIR).forEach(function (f) {
-        var stats = fs.statSync(BASEDIR + f);
+        var filestats = getFileInfo(f);
 
-        if (!_.startsWith(f, '.') && !stats.isDirectory()) {
-            files.push({
-                name: f,
-                size: stats.size
-            });
+        if (filestats) {
+            files.push(filestats);
         }
     });
 
@@ -67,6 +88,7 @@ function listFiles(req, res) {
 }
 
 module.exports = {
+    getFile,
     deleteFile,
     listFiles,
     helpers: {
