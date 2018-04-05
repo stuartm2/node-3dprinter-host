@@ -2,6 +2,7 @@
 const fs = require('fs');
 const _ = require('lodash');
 const qs = require('querystring');
+const shared = require('./static/shared.js');
 
 const BASEDIR = '/Users/stuartm/Downloads/Print Queue/';
 
@@ -26,9 +27,15 @@ function strip_filetype(val) {
     return (i >= 0) ? val.slice(0, i) : val;
 }
 
-function strip_filename(val) {
-    var i = val.lastIndexOf('.');
-    return (i >= 0) ? _.toUpper(val.slice(i + 1)) : 'UNKNOWN';
+function addFile(req, res) {
+    var file = req.files.file;
+
+    if (shared.isGCodeFile(file.name)) {
+        file.mv(`${BASEDIR}${file.name}`);
+        res.redirect('/files/' + qs.escape(file.name) + '/info');
+    } else {
+        res.status(500).send('Upload error');
+    }
 }
 
 function getFile(req, res) {
@@ -52,6 +59,17 @@ function getFileInfo(filename) {
                 size: stats.size
             };
         }
+    }
+}
+
+function getFileRow(req, res) {
+    var filename = req.params.file.split('/').pop();
+    var filestats = getFileInfo(filename);
+
+    if (filestats) {
+        res.render('partials/filerow', _.extend(filestats, {layout: false}));
+    } else {
+        res.status(404).send('File not found');
     }
 }
 
@@ -88,13 +106,15 @@ function listFiles(req, res) {
 }
 
 module.exports = {
+    addFile,
     getFile,
+    getFileRow,
     deleteFile,
     listFiles,
     helpers: {
         bytes,
         escape: qs.escape,
-        strip_filename,
+        strip_filename: shared.strip_filename,
         strip_filetype
     }
 }
