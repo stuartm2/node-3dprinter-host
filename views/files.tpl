@@ -13,7 +13,7 @@
             <th>Name</th>
             <th>Type</th>
             <th class="text-right">Size</th>
-            <th><br></th>
+            <th colspan="2"><br></th>
         </tr>
     </thead>
     <tbody>

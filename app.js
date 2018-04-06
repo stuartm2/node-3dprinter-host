@@ -21,6 +21,7 @@ app.get('/', views.listFiles);
 app.get('/files/:file/info', views.getFile);
 app.get('/files/:file/row', views.getFileRow);
 app.post('/files', views.addFile);
-app.delete('/files/:file', views.deleteFile)
+app.post('/files/:file/print', views.printFile);
+app.delete('/files/:file', views.deleteFile);
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));

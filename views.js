@@ -3,6 +3,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const qs = require('querystring');
 const shared = require('./static/shared.js');
+const stream = require('./stream.js');
 
 const BASEDIR = '/Users/stuartm/Downloads/Print Queue/';
 
@@ -105,12 +106,23 @@ function listFiles(req, res) {
     });
 }
 
+function printFile(req, res) {
+    var filename = req.params.file.split('/').pop();
+    var opts = {
+        port: '/dev/cu.wchusbserial1410',
+        baudRate: 115200
+    };
+
+    stream.print(BASEDIR + filename, opts);
+}
+
 module.exports = {
     addFile,
     getFile,
     getFileRow,
     deleteFile,
     listFiles,
+    printFile,
     helpers: {
         bytes,
         escape: qs.escape,

@@ -6,4 +6,7 @@
     <td class="text-center">
         <button class="btn btn-sm btn-default btn-delete" data-filename="{{ escape name }}">Delete</button>
     </td>
+    <td class="text-center">
+        <button class="btn btn-sm btn-default btn-print" data-filename="{{ escape name }}">Print</button>
+    </td>
 </tr>

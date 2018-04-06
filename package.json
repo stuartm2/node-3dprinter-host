@@ -12,6 +12,8 @@
     "express": "^4.16.3",
     "express-fileupload": "^0.4.0",
     "express-handlebars": "^3.0.0",
-    "lodash": "^4.17.5"
+    "line-by-line": "^0.1.6",
+    "lodash": "^4.17.5",
+    "serialport": "^6.1.1"
   }
 }

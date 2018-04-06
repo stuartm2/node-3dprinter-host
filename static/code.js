@@ -82,6 +82,18 @@ function onDeleteBtnClicked(e) {
     }
 }
 
+function onPrintBtnClicked(e) {
+    e.preventDefault();
+    var filename = $(e.target).data('filename');
+
+    $.post({
+        url: `/files/${filename}/print`,
+        data: {},
+        success: (result) => {},
+        error: () => console.log(`There was a problem printing ${filename}`)
+    });
+}
+
 function onFileUploadDialogShown() {
     $(this).find('.progress').hide();
     $(this).find('.alert').hide();
@@ -156,6 +168,9 @@ function initFilesTable() {
     $('#filesTable .btn-delete')
         .unbind('click')
         .click(onDeleteBtnClicked);
+    $('#filesTable .btn-print')
+        .unbind('click')
+        .click(onPrintBtnClicked);
 }
 
 function initFileUploadDialog() {
