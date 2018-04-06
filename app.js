@@ -1,8 +1,13 @@
 
+const ip = require("ip");
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const exhbs  = require('express-handlebars');
 const views = require('./views.js');
+
+const appConfig = {
+    port: 3000
+};
 
 const hbrConfig = {
     extname: '.tpl',
@@ -24,4 +29,4 @@ app.post('/files', views.addFile);
 app.post('/files/:file/print', views.printFile);
 app.delete('/files/:file', views.deleteFile);
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+app.listen(appConfig.port, () => console.log(`Serving at http://${ip.address()}:${appConfig.port}`));
