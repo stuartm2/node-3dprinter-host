@@ -164,6 +164,19 @@ function addItemToTable(item, row) {
     return false;
 }
 
+function filterFilesTable(searchTxt) {
+    $('#filesTable tbody tr').each(function () {
+        var filename = $(this).data('file').name.toLowerCase();
+        $(this).toggle(filename.indexOf(searchTxt.toLowerCase()) >= 0);
+    });
+    updateFilesTable();
+}
+
+function initFileFilter() {
+    $('#filterFld').keyup((e) => filterFilesTable($(e.target).val()));
+    $('#filterClearBtn').click((e) => $('#filterFld').val('').keyup());
+}
+
 function initFilesTable() {
     $('#filesTable .btn-delete')
         .unbind('click')
@@ -171,6 +184,11 @@ function initFilesTable() {
     $('#filesTable .btn-print')
         .unbind('click')
         .click(onPrintBtnClicked);
+    updateFilesTable();
+}
+
+function updateFilesTable() {
+    $('#filesTable tfoot').toggle($('#filesTable tbody tr:visible').length == 0);
 }
 
 function initFileUploadDialog() {
@@ -180,6 +198,7 @@ function initFileUploadDialog() {
 }
 
 $(document).ready(() => {
+    initFileFilter();
     initFilesTable();
     initFileUploadDialog();
 });

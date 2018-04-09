@@ -5,6 +5,14 @@
             <button class="btn btn-default" data-toggle="modal" data-target="#fileUploadDialog">Upload File</button>
         </li>
     </ul>
+    <div>
+        <div class="input-group">
+            <input type="search" class="form-control" id="filterFld" placeholder="Search">
+            <div class="input-group-append">
+                <button class="btn input-group-btn" id="filterClearBtn">X</button>
+            </div>
+        </div>
+    </div>
 </nav>
 
 <table class="table table-sm table-hover" id="filesTable">
@@ -21,6 +29,11 @@
             {{>filerow}}
         {{/each}}
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" class="text-center"><em>No files</em></td>
+        </tr>
+    </tfoot>
 </table>
 
 <div class="modal" tabindex="-1" role="dialog" id="fileUploadDialog">

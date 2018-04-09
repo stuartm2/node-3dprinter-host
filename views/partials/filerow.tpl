@@ -1,5 +1,5 @@
 
-<tr>
+<tr data-file="{{ to_json . }}">
     <td>{{ strip_filetype name }}</td>
     <td><span class="badge badge-info">{{ strip_filename name }}</span></td>
     <td class="text-right">{{ bytes size }}</td>
