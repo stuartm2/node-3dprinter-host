@@ -1,11 +1,11 @@
 
-<div class="card bg-light">
-    <div class="card-body">
-        <button class="btn btn-default" data-toggle="modal" data-target="#fileUploadDialog">Upload File</button>
-    </div>
-</div>
-
-<br>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <button class="btn btn-default" data-toggle="modal" data-target="#fileUploadDialog">Upload File</button>
+        </li>
+    </ul>
+</nav>
 
 <table class="table table-sm table-hover" id="filesTable">
     <thead>
