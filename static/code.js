@@ -74,7 +74,7 @@ function onDeleteBtnClicked(e) {
             success: (result) => {
                 var $row = $(this).parents('tr');
                 $row.fadeOut({
-                    complete: $row.remove
+                    complete: () => $row.remove()
                 });
             },
             error: () => console.log(`There was a problem deleting ${filename}`)
