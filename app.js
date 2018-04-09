@@ -1,32 +1,32 @@
 
-const ip = require("ip");
-const express = require('express');
-const fileUpload = require('express-fileupload');
-const exhbs  = require('express-handlebars');
-const views = require('./views.js');
+const ip = require("ip"),
+    express = require('express'),
+    fileUpload = require('express-fileupload'),
+    hbr = require('express-handlebars'),
+    views = require('./views.js'),
 
-const appConfig = {
-    port: 3000
-};
+    appConfig = {
+        port: 3000
+    },
 
-const hbrConfig = {
-    extname: '.tpl',
-    defaultLayout: 'main',
-    helpers: views.helpers
-};
+    hbrConfig = {
+        extname: '.tpl',
+        defaultLayout: 'main',
+        helpers: views.helpers
+    };
 
-const hbr = exhbs.create(hbrConfig);
-const app = express();
+express()
+    .use(fileUpload())
+    .engine('.tpl', hbr.create(hbrConfig).engine)
+    .set('view engine', 'tpl')
+    .use('/static', express.static('static'))
 
-app.use(fileUpload());
-app.engine('.tpl', hbr.engine);
-app.set('view engine', 'tpl');
-app.use('/static', express.static('static'));
-app.get('/', views.listFiles);
-app.get('/files/:file/info', views.getFile);
-app.get('/files/:file/row', views.getFileRow);
-app.post('/files', views.addFile);
-app.post('/files/:file/print', views.printFile);
-app.delete('/files/:file', views.deleteFile);
+    .get('/', (req, res) => res.redirect('/files'))
+    .get('/files', views.listFiles)
+    .post('/files', views.addFile)
+    .delete('/files/:file', views.deleteFile)
+    .get('/files/:file/info', views.getFile)
+    .get('/files/:file/row', views.getFileRow)
+    .post('/files/:file/print', views.printFile)
 
-app.listen(appConfig.port, () => console.log(`Serving at http://${ip.address()}:${appConfig.port}`));
+    .listen(appConfig.port, () => console.log(`Serving at http://${ip.address()}:${appConfig.port}`));
