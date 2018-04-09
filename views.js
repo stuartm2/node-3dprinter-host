@@ -28,6 +28,10 @@ function strip_filetype(val) {
     return (i >= 0) ? val.slice(0, i) : val;
 }
 
+function to_json(val) {
+    return JSON.stringify(val);
+}
+
 function addFile(req, res) {
     var file = req.files.file;
 
@@ -127,6 +131,7 @@ module.exports = {
         bytes,
         escape: qs.escape,
         strip_filename: shared.strip_filename,
-        strip_filetype
+        strip_filetype,
+        to_json
     }
 }
