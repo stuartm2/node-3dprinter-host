@@ -16,7 +16,7 @@
 </nav>
 
 <table class="table table-sm table-hover" id="filesTable">
-    <thead>
+    <thead class="thead-dark">
         <tr>
             <th>Name</th>
             <th>Type</th>
