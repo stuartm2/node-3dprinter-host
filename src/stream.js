@@ -1,16 +1,23 @@
 
 var fs = require('fs');
 var LineByLineReader = require('line-by-line');
-var SerialPort = require('serialport');
+
+try {
+    var SerialPort = require('serialport');
+} catch (e) {
+    var SerialPort = null;
+}
 
 function print(file, opts) {
-    if (fs.existsSync(file)) {
+    if (!SerialPort) {
+        console.log("SerialPort library not available");
+    } else if (!fs.existsSync(file)) {
+        console.log(`Error: ${file} not found`);
+    } else {
         streamToPrinter(
             new LineByLineReader(file),
             new SerialPort(opts.port, { baudRate: opts.baudRate })
         );
-    } else {
-        console.log(`Error: ${file} not found`);
     }
 }
 
