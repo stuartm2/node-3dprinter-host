@@ -5,7 +5,7 @@ const qs = require('querystring');
 const shared = require('./static/shared.js');
 const stream = require('./stream.js');
 
-const BASEDIR = '/Users/stuartm/Downloads/Print Queue/';
+const BASEDIR = '/Users/stuartm/Downloads/Print Queue/Rampage/';
 
 function bytes(val) {
     var gb = val / (1024 * 1024 * 1024);
